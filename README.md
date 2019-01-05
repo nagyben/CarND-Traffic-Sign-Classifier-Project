@@ -222,13 +222,13 @@ Tough to say - the sign is the majority of the image but there is a tree behind 
 
 ---
 
-![right](german-signs/38_right.jpg)
+![right](german-signs/33_right.jpg)
 
 Should be easy - plain image of a sign with no background shapes
 
 ---
 
-![left](german-signs/39_left.jpg)
+![left](german-signs/34_left.jpg)
 
 Hard to say - clear image but there are clouds behind the sign
 
