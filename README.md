@@ -128,7 +128,7 @@ There were many iterations of the hyperparameters and there does seem to be a co
 
 The output of the final training run is shown below
 
-[training-output](examples/training-output.png)
+![training-output](examples/training-output.png)
 
 ```
 Training...
@@ -206,7 +206,7 @@ This one should be easy to classify - the sign takes up the majority of the imag
 
 ![30kph](german-signs/1_30kph.jpg)
 
-This one will be difficult to classify because the sign is only about half of the image and there are trees, roads and a car in the background
+This one will be difficult to classify because the sign is only about half of the image and there are trees, roads and a car in the background. It also has a watermark at the bottom.
 
 ---
 
@@ -243,7 +243,7 @@ Should be easy - though the contrast with the leaves and sky might make it diffi
 ![100kph](german-signs/7_100kph.jpeg)
 This one should be impossible - the sign makes up about 10% of the picture.
 
-All of these images were quite big and so needed to be resized to 32x32:
+All of these images were quite big and so needed to be resized to 32x32. The ground truth labels are given above the image:
 
 ![german-signs](examples/german-signs.png)
 
@@ -259,9 +259,27 @@ The model was able to correctly guess 5 out of 8 images which I selected from th
 
 To the model's credit, I picked some quite difficult images to classify, given that most of them were not taking up the full extent of the image and most also had a lot going on in the background.
 
+Discussing the images from left to right:
+
+| Truth | Prediction | Discussion |
+| --- | --- | --- |
+| Turn right ahead | Turn right ahead | As expected, the sign against the clear sky with no distinct shapes meant that the network correctly identified the sign class |
+| 30 kph | 20 kph | The network was almost correct, it had the correct type of sign (speed limit) but not the correct number. This could be due to the significantly lower resolution of the number '3' within the 32x32 pixel representation |
+| 70 kph | 70 kph | As expected, this was identified correctly, and the contrasting sky/tree in the background was not enough to fool the network |
+| 100 kph | Roundabout mandatory | As expected, the network had no idea what this sign was, because when we look at the 32x32 pixel representation, the sign takes up a ~5x5 corner of it with not enough information to have a hope in identifying it correctly |
+| Right of way at next intersection | Right of way at next intersection | As expected, a clear large sign was correctly identified |
+| 50 kph | 50 kph | A clear sign against a blue sky. The downsampling to 32x32 also got rid of the watermark which I was afraid might have caused issues |
+| Road work | Road work | A correct identification despite having contrasting shapes in the background and shadows on the sign itself |
+| Turn left ahead | Keep left | While the sign is clear in the image, the white clouds behind are enough to cause an incorrect detection |
+
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
 The top 5 predictions are shown below:
 ![german-sign-top5](examples/german-sign-top5.png)
 
+In most cases, the network is quite confident in itself.
 
+Some interesting observations:
+- The 30kph sign was 60% sure it was a 20kph sign and 30% sure it was a 30kph sign - so the second guess was correct.
+- For all speed limit signs, the top 5 predictions are all speed limits - the difficulty is what the number is
+- In fact, for all of the signs, the top 5 predictions are all signs of the same shape (i.e. circle for speed limits / triangle for road works) - even the 100kph one which can barely be made out
